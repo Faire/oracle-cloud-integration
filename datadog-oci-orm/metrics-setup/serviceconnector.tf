@@ -8,24 +8,29 @@ resource "oci_sch_service_connector" "metrics_service_connector" {
     kind = "monitoring"
 
     #Optional
-    monitoring_sources {
+    dynamic "monitoring_sources" {
+      for_each = var.connector_metric_source_compartments
 
-      #Optional
-      compartment_id = var.tenancy_ocid
-      namespace_details {
-        kind = "selected"
-        dynamic "namespaces" {
-          for_each = local.connector_metric_namespaces
-          content {
-            metrics {
-              #Required
-              kind = "all"
+      content {
+        #Optional
+        compartment_id = monitoring_sources.value
+
+        namespace_details {
+          kind = "selected"
+          dynamic "namespaces" {
+            for_each = var.connector_metric_namespaces
+            content {
+              metrics {
+                #Required
+                kind = "all"
+              }
+              namespace = namespaces.value
             }
-            namespace = namespaces.value
           }
         }
       }
     }
+
   }
   target {
     #Required
@@ -42,4 +47,12 @@ resource "oci_sch_service_connector" "metrics_service_connector" {
   defined_tags  = {}
   description   = "Terraform created connector hub to distribute metrics"
   freeform_tags = local.freeform_tags
+
+  lifecycle {
+    ignore_changes = [
+      defined_tags["Oracle-Tags.CreatedBy"],
+      defined_tags["Oracle-Tags.CreatedOn"],
+      target["compartment_id"]
+    ]
+  }
 }

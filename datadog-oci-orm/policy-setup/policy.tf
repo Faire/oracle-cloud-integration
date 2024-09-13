@@ -12,10 +12,6 @@ data "oci_identity_tenancy" "tenancy_metadata" {
   tenancy_id = var.tenancy_ocid
 }
 
-provider "oci" {
-  tenancy_ocid = var.tenancy_ocid
-}
-
 locals {
   tenancy_home_region = data.oci_identity_tenancy.tenancy_metadata.home_region_key
   freeform_tags = {
@@ -33,6 +29,13 @@ resource "oci_identity_dynamic_group" "serviceconnector_group" {
   #Optional
   defined_tags  = {}
   freeform_tags = local.freeform_tags
+
+  lifecycle {
+    ignore_changes = [
+      defined_tags["Oracle-Tags.CreatedBy"],
+      defined_tags["Oracle-Tags.CreatedOn"],
+    ]
+  }
 }
 
 resource "oci_identity_policy" "metrics_policy" {
@@ -46,4 +49,11 @@ resource "oci_identity_policy" "metrics_policy" {
   ]
   defined_tags  = {}
   freeform_tags = local.freeform_tags
+
+  lifecycle {
+    ignore_changes = [
+      defined_tags["Oracle-Tags.CreatedBy"],
+      defined_tags["Oracle-Tags.CreatedOn"],
+    ]
+  }
 }
