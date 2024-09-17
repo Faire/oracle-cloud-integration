@@ -1,0 +1,14 @@
+schema_version: 20180708
+name: datadogapp
+version: 0.0.1
+runtime: python
+entrypoint: /python/bin/fdk /function/func.py handler
+build_image: fnproject/python:3.11-dev
+run_image: fnproject/python:3.11
+memory: 1024
+timeout: 120
+#config:
+  # DATADOG_HOST: https://http-intake.logs.datadoghq.com/api/v2/logs  # DD Log Intake Host
+  # DATADOG_TOKEN: <DATADOG_API_TOKEN>                                # DD API Token
+  # DATADOG_TAGS: "prod:true"                                       # Tags associated with logs
+  # DD_COMPRESS: "true"                                             # Compress logs before sending

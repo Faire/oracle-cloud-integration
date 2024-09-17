@@ -2,6 +2,7 @@ import io
 import os
 import json
 import logging
+import gzip
 
 import requests
 
@@ -16,13 +17,15 @@ def process(body: dict) -> None:
     data = body.get("data", {})
     source = body.get("source")
     time = body.get("time")
+    oracle = body.get("oracle", {})
 
     # Get json data, time, and source information
     payload = {}
     payload.update({"source": source})
     payload.update({"time": time})
     payload.update({"data": data})
-    payload.update({"ddsource": DD_SERVICE})
+    payload.update({"oracle": oracle})
+    payload.update({"ddsource": DD_SOURCE})
     payload.update({"service": DD_SERVICE})
 
     # Datadog endpoint URL and token to call the REST interface.
@@ -40,19 +43,28 @@ def process(body: dict) -> None:
     if dd_tags:
         payload.update({'ddtags': dd_tags})
 
+    headers = {"Content-type": "application/json",
+               "DD-API-KEY": dd_token}
+    logs_message = json.dumps(payload)
+
+    if _should_compress_payload():
+        serialized = gzip.compress(logs_message.encode())
+        headers["content-encoding"] = "gzip"
+    else:
+        serialized = logs_message
+
     # Invoke Datadog API with the payload.
     # If the payload contains more than one log
     # this will be ingested at once.
     try:
-        headers = {"Content-type": "application/json",
-                   "Content-encoding": "gzip",
-                   "DD-API-KEY": dd_token}
-        res = requests.post(dd_host, data=json.dumps(payload), headers=headers,
+        res = requests.post(dd_host, data=serialized, headers=headers,
                             timeout=DD_TIMEOUT)
         logger.info(res.text)
     except Exception as ex:
         logger.exception(ex)
 
+def _should_compress_payload() -> bool:
+    return os.environ.get("DD_COMPRESS", "false").lower() == "true"
 
 def handler(ctx, data: io.BytesIO = None) -> None:
     """
