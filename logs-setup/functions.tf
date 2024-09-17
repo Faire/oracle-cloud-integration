@@ -2,6 +2,7 @@ resource "oci_functions_application" "logs_function_app" {
   depends_on     = [data.oci_core_subnet.input_subnet]
   compartment_id = var.compartment_ocid
   config = {
+    "DATADOG_HOST"      = "https://http-intake.logs.datadoghq.com/api/v2/logs"
     "DATADOG_TOKEN"     = var.datadog_api_key
   }
   defined_tags  = {}
