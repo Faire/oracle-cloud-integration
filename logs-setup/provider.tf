@@ -4,10 +4,6 @@ terraform {
     oci = {
       source  = "oracle/oci"
       version = "5.46.0"
-    }
-    oci = {
-      source  = "oracle/oci"
-      version = "5.46.0"
       configuration_aliases = [ oci.home ]
     }
   }
