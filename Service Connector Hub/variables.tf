@@ -45,11 +45,6 @@ variable "service_connector_target_batch_size_in_kbs" {
   default     = "5000"
 }
 
-variable "connector_metric_source_compartments" {
-  type    = list(string)
-  description = "The list of compartments for which the connector will pull metrics from"
-}
-
 #*************************************
 #         TF auth Requirements
 #*************************************
