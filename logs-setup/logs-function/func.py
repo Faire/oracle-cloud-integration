@@ -2,6 +2,7 @@ import io
 import os
 import json
 import logging
+import gzip
 
 import requests
 
