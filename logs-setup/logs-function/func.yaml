@@ -3,6 +3,8 @@ name: datadogapp
 version: 0.0.1
 runtime: python
 entrypoint: /python/bin/fdk /function/func.py handler
+build_image: fnproject/python:3.11-dev
+run_image: fnproject/python:3.11
 memory: 1024
 timeout: 120
 config:
