@@ -23,7 +23,7 @@ def process(body: dict) -> None:
     payload.update({"source": source})
     payload.update({"time": time})
     payload.update({"data": data})
-    payload.update({"ddsource": DD_SERVICE})
+    payload.update({"ddsource": DD_SOURCE})
     payload.update({"service": DD_SERVICE})
 
     # Datadog endpoint URL and token to call the REST interface.
