@@ -11,3 +11,4 @@ timeout: 120
   # DATADOG_HOST: https://http-intake.logs.datadoghq.com/api/v2/logs  # DD Log Intake Host
   # DATADOG_TOKEN: <DATADOG_API_TOKEN>                                # DD API Token
   # DATADOG_TAGS: "prod:true"                                       # Tags associated with logs
+  # DD_COMPRESS: "true"                                             # Compress logs before sending

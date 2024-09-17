@@ -4,6 +4,7 @@ resource "oci_functions_application" "logs_function_app" {
   config = {
     "DATADOG_HOST"      = "https://http-intake.logs.datadoghq.com/api/v2/logs"
     "DATADOG_TOKEN"     = var.datadog_api_key
+    "DD_COMPRESS"       = "true"
   }
   defined_tags  = {}
   display_name  = "${var.resource_name_prefix}-function-app"
