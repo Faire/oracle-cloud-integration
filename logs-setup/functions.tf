@@ -2,7 +2,7 @@ resource "oci_functions_application" "logs_function_app" {
   depends_on     = [data.oci_core_subnet.input_subnet]
   compartment_id = var.compartment_ocid
   config = {
-    "DD_API_KEY"     = var.datadog_api_key
+    "DATADOG_TOKEN"     = var.datadog_api_key
   }
   defined_tags  = {}
   display_name  = "${var.resource_name_prefix}-function-app"
