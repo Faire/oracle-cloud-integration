@@ -4,6 +4,12 @@ variable "resource_name_prefix" {
   default     = "datadog-logs"
 }
 
+variable "create_vcn" {
+  type        = bool
+  default     = true
+  description = "Optional variable to create virtual network for the setup. True by default"
+}
+
 variable "datadog_api_key" {
   type        = string
   description = "The API key for sending message to datadog endpoints"
@@ -13,6 +19,12 @@ variable "function_subnet_id" {
   type        = string
   default     = ""
   description = "The OCID of the subnet to be used for the function app. Required if not creating the VCN"
+}
+
+variable "function_image_path" {
+  type        = string
+  default     = ""
+  description = "The full path of the function image. The image should be present in the container registry for the region"
 }
 
 variable "function_app_shape" {

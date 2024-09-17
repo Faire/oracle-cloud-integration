@@ -3,11 +3,6 @@ resource "oci_functions_application" "logs_function_app" {
   compartment_id = var.compartment_ocid
   config = {
     "DD_API_KEY"     = var.datadog_api_key
-    "DD_COMPRESS"    = "true"
-    "DD_INTAKE_HOST" = var.datadog_environment
-    "DD_INTAKE_LOGS" = "false"
-    "DD_MAX_POOL"    = "20"
-    "TENANCY_OCID"   = var.tenancy_ocid
   }
   defined_tags  = {}
   display_name  = "${var.resource_name_prefix}-function-app"
