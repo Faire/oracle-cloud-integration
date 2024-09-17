@@ -36,7 +36,7 @@ resource "oci_functions_function" "logs_function" {
   freeform_tags = local.freeform_tags
   image         = local.user_image_provided ? local.custom_image_path : local.docker_image_path
 
-  timeout_in_seconds = 60
+  timeout_in_seconds = var.function_timeout_secs
 
   lifecycle {
     ignore_changes = [

@@ -57,6 +57,11 @@ variable "service_connector_target_batch_size_in_kbs" {
   default     = "5000"
 }
 
+variable "function_timeout_secs" {
+  type        = number
+  description = "The timeout in seconds for the function"
+  default     = 60
+}
 #*************************************
 #         TF auth Requirements
 #*************************************
