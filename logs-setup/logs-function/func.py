@@ -17,12 +17,14 @@ def process(body: dict) -> None:
     data = body.get("data", {})
     source = body.get("source")
     time = body.get("time")
+    oracle = body.get("oracle", {})
 
     # Get json data, time, and source information
     payload = {}
     payload.update({"source": source})
     payload.update({"time": time})
     payload.update({"data": data})
+    payload.update({"oracle": oracle})
     payload.update({"ddsource": DD_SOURCE})
     payload.update({"service": DD_SERVICE})
 
