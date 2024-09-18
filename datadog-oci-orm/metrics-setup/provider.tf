@@ -4,12 +4,7 @@ terraform {
     oci = {
       source  = "oracle/oci"
       version = "5.46.0"
+      configuration_aliases = [ oci.home ]
     }
   }
-}
-
-provider "oci" {
-  alias        = "home"
-  tenancy_ocid = var.tenancy_ocid
-  region       = local.tenancy_home_region
 }
