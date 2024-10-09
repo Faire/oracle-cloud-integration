@@ -16,8 +16,18 @@ DD_TIMEOUT = 10 * 60  # Adding a timeout for the Datadog API call.
 def process(body: dict) -> None:
     data = body.get("data", {})
     source = body.get("source")
-    time = body.get("time")
     oracle = body.get("oracle", {})
+
+    # If log is from function invocation, use message from the body as data
+    if "functionId" in data:
+        # message format: UUID - root - ERROR - json_str
+        json_str = data.get("message").split(" - ")[3]
+        data = json.loads(json_str)
+
+    if "time" in data:
+        time = data.get("time")
+    else:
+        time = body.get("time")
 
     # Get json data, time, and source information
     payload = {}
