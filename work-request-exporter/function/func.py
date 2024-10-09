@@ -8,20 +8,20 @@ import os
 from fdk import response
 
 
-regions = os.environ.get("REGIONS", "ca-toronto-1,us-ashburn-1")
-compartment_ids = os.environ.get("COMPARTMENT_IDS", "ocid1.compartment.oc1..aaaaaaaanydaqleheyo7hepeg6lsvplv7igvfarnomdigsk253h3mxkxjocq,ocid1.compartment.oc1..aaaaaaaaqzxstunqgzwnvfyrg5xoj4glcqqkygszmlljx4ke4epqiynce2pq")
+REGIONS = os.environ.get("REGIONS", "ca-toronto-1,us-ashburn-1")
+COMPARTMENT_IDS = os.environ.get("COMPARTMENT_IDS", "ocid1.compartment.oc1..aaaaaaaanydaqleheyo7hepeg6lsvplv7igvfarnomdigsk253h3mxkxjocq,ocid1.compartment.oc1..aaaaaaaaqzxstunqgzwnvfyrg5xoj4glcqqkygszmlljx4ke4epqiynce2pq")
 POLL_INTERVAL_MINUTES = int(os.environ.get("POLL_INTERVAL_MINUTES", 30)) # this should be same as function invocation interval
-operation_filters = ["NODEPOOL_UPDATE"]
+OPERATION_FILTERS = ["NODEPOOL_UPDATE"]
 
 logging.getLogger('oci').setLevel(logging.ERROR)
 
 def handler(ctx, data: io.BytesIO = None):
   work_requests_errors = []
-  for region in regions.split(","):
-    for compartment_id in compartment_ids.split(","):
+  for region in REGIONS.split(","):
+    for compartment_id in COMPARTMENT_IDS.split(","):
       work_requests_errors += get_work_requests_errors(
         compartment_id=compartment_id,
-        operation_filters=operation_filters,
+        operation_filters=OPERATION_FILTERS,
         region=region
       )
 
@@ -35,7 +35,7 @@ def handler(ctx, data: io.BytesIO = None):
   )
 
 
-def get_work_requests_errors(compartment_id, region, operation_filters = ["NODEPOOL_UPDATE"], is_local=False, limit=1000):
+def get_work_requests_errors(compartment_id, region, operation_filters, is_local=False, limit=1000):
   # Get work requests errors for the given compartment and region
   # Pagination is not implemented as the limit is set to 1000 which should be enough --
   # logging more usually don't provide much value if there were already that many errors
@@ -85,6 +85,7 @@ def get_work_requests_errors(compartment_id, region, operation_filters = ["NODEP
 if __name__ == "__main__":
   get_work_requests_errors(
     compartment_id="ocid1.compartment.oc1..aaaaaaaanydaqleheyo7hepeg6lsvplv7igvfarnomdigsk253h3mxkxjocq",
+    operation_filters=OPERATION_FILTERS,
     region="ca-toronto-1",
     is_local=True
   )
