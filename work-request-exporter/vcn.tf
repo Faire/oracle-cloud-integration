@@ -7,7 +7,7 @@ module "vcn" {
   defined_tags             = {}
   freeform_tags            = local.freeform_tags
   vcn_cidrs                = ["10.0.0.0/16"]
-  vcn_dns_label            = "workrequestexporterfunction"
+  vcn_dns_label            = "workrequestexp"
   vcn_name                 = local.vcn_name
   lockdown_default_seclist = false
   subnets = {
