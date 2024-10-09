@@ -36,6 +36,10 @@ def handler(ctx, data: io.BytesIO = None):
 
 
 def get_work_requests_errors(compartment_id, region, operation_filters = ["NODEPOOL_UPDATE"], is_local=False, limit=1000):
+  # Get work requests errors for the given compartment and region
+  # Pagination is not implemented as the limit is set to 1000 which should be enough --
+  # logging more usually don't provide much value if there were already that many errors
+
   if is_local:
     config = oci.config.from_file()
     config["region"] = region
