@@ -1,3 +1,3 @@
 output "function_id" {
-  value = oci_functions_function.logs_function.id
+  value = oci_functions_function.work_request_exporter_function.id
 }

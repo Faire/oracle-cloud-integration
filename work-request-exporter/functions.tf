@@ -1,4 +1,4 @@
-resource "oci_functions_application" "logs_function_app" {
+resource "oci_functions_application" "work_request_exporter_function_app" {
   depends_on     = [data.oci_core_subnet.input_subnet]
   compartment_id = var.compartment_ocid
   config = {
@@ -24,11 +24,11 @@ resource "oci_functions_application" "logs_function_app" {
   }
 }
 
-resource "oci_functions_function" "logs_function" {
-  depends_on = [null_resource.FnImagePushToOCIR, oci_functions_application.logs_function_app]
+resource "oci_functions_function" "work_request_exporter_function" {
+  depends_on = [null_resource.FnImagePushToOCIR, oci_functions_application.work_request_exporter_function_app]
   #Required
-  application_id = oci_functions_application.logs_function_app.id
-  display_name   = "${oci_functions_application.logs_function_app.display_name}-function"
+  application_id = oci_functions_application.work_request_exporter_function_app.id
+  display_name   = "${oci_functions_application.work_request_exporter_function_app.display_name}-function"
   memory_in_mbs  = "256"
 
   #Optional

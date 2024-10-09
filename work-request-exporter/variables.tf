@@ -64,7 +64,12 @@ variable "compartment_ids" {
 
 variable "poll_interval_minutes" {
   type        = number
-  description = "The interval in minutes to poll for work requests. Should be same as function invocation interval"
+  description = "The interval in minutes to poll for work requests. Function invocation interval should be same as this"
+}
+
+variable "work_request_function_id" {
+  type        = string
+  description = "The OCID of the function to be invoked"
 }
 
 #*************************************
