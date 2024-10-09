@@ -1,7 +1,7 @@
 variable "resource_name_prefix" {
   type        = string
   description = "The prefix for the name of all of the resources"
-  default     = "datadog-logs"
+  default     = "work-request-exporter"
 }
 
 variable "create_vcn" {

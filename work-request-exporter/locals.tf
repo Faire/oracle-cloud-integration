@@ -34,7 +34,7 @@ locals {
   oci_docker_repository = "${local.oci_region_key}.ocir.io/${local.ocir_namespace}"
   oci_docker_host       = "${local.oci_region_key}.ocir.io"
   ocir_repo_name        = "${var.resource_name_prefix}-functions"
-  function_name         = "datadog-function-logs"
+  function_name         = var.resource_name_prefix
   docker_image_path     = "${local.oci_docker_repository}/${local.ocir_repo_name}/${local.function_name}:latest"
   custom_image_path     = var.function_image_path
   user_image_provided   = length(var.function_image_path) > 0 ? true : false
