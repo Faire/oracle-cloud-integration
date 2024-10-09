@@ -67,11 +67,6 @@ variable "poll_interval_minutes" {
   description = "The interval in minutes to poll for work requests. Function invocation interval should be same as this"
 }
 
-variable "work_request_function_id" {
-  type        = string
-  description = "The OCID of the function to be invoked"
-}
-
 #*************************************
 #         TF auth Requirements
 #*************************************
