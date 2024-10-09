@@ -80,7 +80,7 @@ resource "oci_identity_dynamic_group" "functions_group" {
 }
 
 resource "oci_identity_policy" "functions_policy" {
-  depends_on     = [oci_identity_dynamic_group.serviceconnector_group]
+  depends_on     = [oci_identity_dynamic_group.functions_group]
   compartment_id = var.tenancy_ocid
   description    = "[DO NOT REMOVE] Policy to allow function to read resources"
   name           = var.functions_policy
