@@ -13,7 +13,7 @@ compartment_ids = os.environ.get("COMPARTMENT_IDS", "ocid1.compartment.oc1..aaaa
 POLL_INTERVAL_MINUTES = os.environ.get("POLL_INTERVAL_MINUTES", 30) # this should be same as function invocation interval
 operation_filters = ["NODEPOOL_UPDATE"]
 
-logging.basicConfig(level=logging.ERROR)
+logging.getLogger('oci').setLevel(logging.ERROR)
 
 def handler(ctx, data: io.BytesIO = None):
   work_requests_errors = []
