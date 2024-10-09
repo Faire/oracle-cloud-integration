@@ -50,7 +50,7 @@ module "work_request_exporter_logging" {
   source         = "oracle-terraform-modules/logging/oci"
   version        = "0.4.0"
 
-  tenancy_ocid   = var.tenancy_ocid
+  tenancy_id   = var.tenancy_ocid
   compartment_id = var.tenancy_ocid
   service_logdef = {
     fnlog = {
