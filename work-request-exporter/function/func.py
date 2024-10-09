@@ -11,11 +11,11 @@ from fdk import response
 regions = os.environ.get("REGIONS", "ca-toronto-1,us-ashburn-1")
 compartment_ids = os.environ.get("COMPARTMENT_IDS", "ocid1.compartment.oc1..aaaaaaaanydaqleheyo7hepeg6lsvplv7igvfarnomdigsk253h3mxkxjocq,ocid1.compartment.oc1..aaaaaaaaqzxstunqgzwnvfyrg5xoj4glcqqkygszmlljx4ke4epqiynce2pq")
 POLL_INTERVAL_MINUTES = os.environ.get("POLL_INTERVAL_MINUTES", 30) # this should be same as function invocation interval
+operation_filters = ["NODEPOOL_UPDATE"]
 
 logging.basicConfig(level=logging.ERROR)
 
 def handler(ctx, data: io.BytesIO = None):
-  operation_filters = ["NODEPOOL_UPDATE"]
   work_requests_errors = []
   for region in regions.split(","):
     for compartment_id in compartment_ids.split(","):
