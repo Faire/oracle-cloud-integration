@@ -3,7 +3,7 @@ resource "oci_functions_application" "work_request_exporter_function_app" {
   compartment_id = var.compartment_ocid
   config = {
     "REGIONS" = var.regions
-    "COMPARTMENT_IDS" = var.compartment_ids
+    "COMPARTMENTS" = var.compartments
     "POLL_INTERVAL_MINUTES" = var.poll_interval_minutes
   }
   defined_tags  = {}

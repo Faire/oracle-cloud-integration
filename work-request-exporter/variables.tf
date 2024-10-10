@@ -54,12 +54,12 @@ variable "function_timeout_secs" {
 
 variable "regions" {
   type        = string
-  description = "The regions to monitor for work requests. Comma separated list of regions"
+  description = "The regions to export OKE cluster work requests for. Comma separated list of regions"
 }
 
-variable "compartment_ids" {
+variable "compartments" {
   type        = string
-  description = "The compartment OCIDs to monitor for work requests. Comma separated list of compartment OCIDs"
+  description = "The compartments to export OKE cluster work requests for. Comma separated list of compartment names"
 }
 
 variable "poll_interval_minutes" {
