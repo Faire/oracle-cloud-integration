@@ -47,13 +47,15 @@ resource "oci_functions_function" "work_request_exporter_function" {
 }
 
 module "work_request_exporter_logging" {
+  depends_on     = [oci_functions_function.work_request_exporter_function]
+
   source         = "oracle-terraform-modules/logging/oci"
   version        = "0.4.0"
 
   tenancy_id   = var.tenancy_ocid
   compartment_id = var.tenancy_ocid
   service_logdef = {
-    fnlog = {
+    functionlog = {
       loggroup = "funcloggroup",
       label_prefix = oci_functions_function.work_request_exporter_function.display_name,
       service = "functions",
