@@ -22,3 +22,14 @@ variable "datadog_metrics_policy" {
   default     = "datadog-metrics-policy"
 }
 
+variable "functions_dynamic_group_name" {
+  type        = string
+  description = "The name of the dynamic group for giving access to functions"
+  default     = "functions-dynamic-group"
+}
+
+variable "functions_policy" {
+  type        = string
+  description = "The name of the policy for functions"
+  default     = "functions-policy"
+}

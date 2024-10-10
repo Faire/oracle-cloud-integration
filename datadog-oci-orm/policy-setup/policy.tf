@@ -3,7 +3,7 @@ terraform {
   required_providers {
     oci = {
       source  = "oracle/oci"
-      version = "5.46.0"
+      version = ">= 5.46.0"
     }
   }
 }
@@ -48,6 +48,46 @@ resource "oci_identity_policy" "metrics_policy" {
     "Allow dynamic-group ${var.dynamic_group_name} to read log-content in tenancy",
     "Allow dynamic-group ${var.dynamic_group_name} to use fn-function in tenancy",
     "Allow dynamic-group ${var.dynamic_group_name} to use fn-invocation in tenancy"
+  ]
+  defined_tags  = {}
+  freeform_tags = local.freeform_tags
+
+  lifecycle {
+    ignore_changes = [
+      defined_tags["Oracle-Tags.CreatedBy"],
+      defined_tags["Oracle-Tags.CreatedOn"],
+    ]
+  }
+}
+
+resource "oci_identity_dynamic_group" "functions_group" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  description    = "[DO NOT REMOVE] Dynamic group for functions"
+  matching_rule  = "All {resource.type = 'fnfunc'}"
+  name           = var.functions_dynamic_group_name
+
+  #Optional
+  defined_tags  = {}
+  freeform_tags = local.freeform_tags
+
+  lifecycle {
+    ignore_changes = [
+      defined_tags["Oracle-Tags.CreatedBy"],
+      defined_tags["Oracle-Tags.CreatedOn"],
+    ]
+  }
+}
+
+resource "oci_identity_policy" "functions_policy" {
+  depends_on     = [oci_identity_dynamic_group.functions_group]
+  compartment_id = var.tenancy_ocid
+  description    = "[DO NOT REMOVE] Policy to allow function to read resources"
+  name           = var.functions_policy
+  statements = [
+    "Allow dynamic-group ${var.functions_dynamic_group_name} to read cluster-work-requests in tenancy",
+    "Allow dynamic-group ${var.functions_dynamic_group_name} to read clusters in tenancy",
+    "Allow dynamic-group ${var.functions_dynamic_group_name} to read cluster-node-pools in tenancy",
   ]
   defined_tags  = {}
   freeform_tags = local.freeform_tags
