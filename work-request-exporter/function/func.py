@@ -9,7 +9,7 @@ from fdk import response
 
 
 REGIONS = os.environ.get("REGIONS", "ca-toronto-1,us-ashburn-1") # comma separated list of regions to export OKE cluster work requests errors
-COMPARTMENTS = os.environ.get("COMPARTMENTS", "ci,crafting") # comma separated list of compartment ids for which to export all OKE cluster work requests errors
+COMPARTMENTS = os.environ.get("COMPARTMENTS", "ci,crafting") # comma separated list of compartment names for which to export all OKE cluster work requests errors
 POLL_INTERVAL_MINUTES = int(os.environ.get("POLL_INTERVAL_MINUTES", 30)) # this should be same as function invocation interval
 OPERATION_FILTERS = ["NODEPOOL_UPDATE"]
 
