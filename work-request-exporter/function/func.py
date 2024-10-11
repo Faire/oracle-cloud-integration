@@ -57,7 +57,8 @@ def get_compartment_id(compartment_name, is_local=False):
     identity_client = oci.identity.IdentityClient(config=config)
   else:
     identity_client = oci.identity.IdentityClient(config=config, signer=oci_signer)
-
+  print("getting id for ", compartment_name, " in ", config["tenancy"])
+  print(identity_client.list_compartments(compartment_id=config["tenancy"]).data)
   return [compartment.id for compartment in identity_client.list_compartments(compartment_id=config["tenancy"]).data if compartment.name == compartment_name][0]
 
 
