@@ -14,6 +14,9 @@ DD_TIMEOUT = 10 * 60  # Adding a timeout for the Datadog API call.
 
 
 def process(body: dict) -> None:
+
+    logger.info(f"Received raw payload: {json.dumps(body, separators=(',', ':'))}")
+
     # If log is from function invocation, use message from the body as data
     data = body.get("data", {})
     time = body.get("time")
@@ -57,6 +60,8 @@ def process(body: dict) -> None:
     headers = {"Content-type": "application/json",
                "DD-API-KEY": dd_token}
     logs_message = json.dumps(payload)
+
+    logger.info(f"Sending DD message: {json.dumps(payload, separators=(',', ':'))}")
 
     if _should_compress_payload():
         serialized = gzip.compress(logs_message.encode())
