@@ -5,6 +5,7 @@ resource "oci_functions_application" "work_request_exporter_function_app" {
     "REGIONS" = var.regions
     "COMPARTMENTS" = var.compartments
     "POLL_INTERVAL_MINUTES" = var.poll_interval_minutes
+    "TENANCY_OCID" = var.tenancy_ocid
   }
   defined_tags  = {}
   display_name  = "${var.resource_name_prefix}-function-app"

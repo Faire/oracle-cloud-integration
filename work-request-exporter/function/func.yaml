@@ -7,7 +7,3 @@ run_image: fnproject/python:3.11
 entrypoint: /python/bin/fdk /function/func.py handler
 memory: 256
 timeout: 120
-config:
-  REGIONS: ca-toronto-1,us-ashburn-1
-  COMPARTMENTS: ci,crafting
-  POLL_INTERVAL_MINUTES: "30"

@@ -11,9 +11,10 @@ from fdk import response
 REGIONS = os.environ.get("REGIONS", "ca-toronto-1,us-ashburn-1") # comma separated list of regions to export OKE cluster work requests errors
 COMPARTMENTS = os.environ.get("COMPARTMENTS", "ci,crafting") # comma separated list of compartment names for which to export all OKE cluster work requests errors
 POLL_INTERVAL_MINUTES = int(os.environ.get("POLL_INTERVAL_MINUTES", 30)) # this should be same as function invocation interval
-OPERATION_FILTERS = ["NODEPOOL_UPDATE"]
+TENANCY_OCID = os.environ.get("TENANCY_OCID")
 
 DEFAULT_REGION = "us-ashburn-1"
+OPERATION_FILTERS = ["NODEPOOL_UPDATE"]
 
 logging.getLogger('oci').setLevel(logging.ERROR)
 
@@ -43,7 +44,7 @@ def get_oci_config_and_signer(region, is_local=False):
     config = oci.config.from_file()
     config["region"] = region
   else:
-    config = {region: region}
+    config = {"region": region, "tenancy": TENANCY_OCID}
     oci_signer = oci.auth.signers.get_resource_principals_signer()
 
   return config, oci_signer
