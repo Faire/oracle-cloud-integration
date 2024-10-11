@@ -14,20 +14,24 @@ DD_TIMEOUT = 10 * 60  # Adding a timeout for the Datadog API call.
 
 
 def process(body: dict) -> None:
-    data = body.get("data", {})
-    source = body.get("source")
-    oracle = body.get("oracle", {})
+
+    logger.info(f"Received raw payload: {json.dumps(body, separators=(',', ':'))}")
 
     # If log is from function invocation, use message from the body as data
+    data = body.get("data", {})
+    time = body.get("time")
     if "functionId" in data:
-        # message format: UUID - root - ERROR - json_str
-        json_str = data.get("message").split(" - ")[3]
-        data = json.loads(json_str)
+        # message format: 01J9S6308T1BT0938ZJ000KAKN - root - ERROR - json_str
+        try:
+            json_str = data.get("message").split(" - ")[3]
+            data = json.loads(json_str)
+            time = data.get("time")
+        except Exception as e:
+            print("function invoked message does not contain json string, skipping the log")
+            return
 
-    if "time" in data:
-        time = data.get("time")
-    else:
-        time = body.get("time")
+    source = body.get("source")
+    oracle = body.get("oracle", {})
 
     # Get json data, time, and source information
     payload = {}
@@ -56,6 +60,8 @@ def process(body: dict) -> None:
     headers = {"Content-type": "application/json",
                "DD-API-KEY": dd_token}
     logs_message = json.dumps(payload)
+
+    logger.info(f"Sending DD message: {json.dumps(payload, separators=(',', ':'))}")
 
     if _should_compress_payload():
         serialized = gzip.compress(logs_message.encode())
