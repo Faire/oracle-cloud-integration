@@ -124,43 +124,41 @@ class TestLogForwarderFunction(TestCase):
     def testForwardFunctionInvokeLogs(self, mock_post):
         payload = """
             {
-                "specversion" : "1.0",
-                "type" : "com.example.someotherevent",
-                "source" : "/mycontext/9",
-                "id" : "C234-1234-1234",
-                "time" : "2018-04-05T17:31:05Z",
-                "comexampleextension1" : "value",
-                "comexampleothervalue" : 5,
-                "datacontenttype" : "application/json",
-                "data" : {
-                    "oracle": {
-                        "compartmentid": "ocid1.tenancy.oc1..aaaaaaaadoqhu6c734qwoafixbkpk6x3emsz4do76gjhu7ezhc7jqquvlmsq",
-                        "ingestedtime": "2024-10-09T17:45:12.328Z",
-                        "loggroupid": "ocid1.loggroup.oc1.ca-toronto-1.amaaaaaaqh5iwviav3rpyzlc5efsjkjgeer7bzd5ba665qxihrhf23p52e2q",
-                        "tenantid": "ocid1.tenancy.oc1..aaaaaaaadoqhu6c734qwoafixbkpk6x3emsz4do76gjhu7ezhc7jqquvlmsq",
-                        "logid": "ocid1.log.oc1.ca-toronto-1.amaaaaaaqh5iwviaoxnmwsfb6u72ohqpqmmfmomlzn2bxrzyzgab5aknv7ra"
-                    },
-                    "data": {
-                        "functionId": "ocid1.fnfunc.oc1.ca-toronto-1.aaaaaaaas756ii24melahgcps6wjwjqzfi5otkrdywdyai3laboacosi2oaa",
-                        "opcRequestId": "/01J9S630870000000000018Y0V/01J9S630870000000000018Y0W",
-                        "src": "STDERR",
-                        "requestId": "/01J9S630870000000000018Y0V/01J9S630870000000000018Y0W",
-                        "applicationId": "ocid1.fnapp.oc1.ca-toronto-1.aaaaaaaaxru5cehs5b6inghow3idjisuk6qxqryqaxjjnm6dp4m7cdkxgdvq",
-                        "containerId": "01J9S63BFW00000000000000Y1",
-                        "message": "01J9S6308T1BT0938ZJ000KAKN - root - ERROR - {\\"error\\": \\"abc\\", \\"time\\": \\"2024-10-09T17:45:01.298Z\\"}"
-                    },
-                    "service": "OCI Logs",
-                    "logger": {
-                        "name": "work-request-exporter"
-                    },
-                    "source": "work-request-exporter",
-                    "time": "2024-10-09T17:45:01.298Z"
-                }
+                "oracle": {
+                    "compartmentid": "ocid1.tenancy.oc1..aaaaaaaadoqhu6c734qwoafixbkpk6x3emsz4do76gjhu7ezhc7jqquvlmsq",
+                    "ingestedtime": "2024-10-09T17:45:12.328Z",
+                    "loggroupid": "ocid1.loggroup.oc1.ca-toronto-1.amaaaaaaqh5iwviav3rpyzlc5efsjkjgeer7bzd5ba665qxihrhf23p52e2q",
+                    "tenantid": "ocid1.tenancy.oc1..aaaaaaaadoqhu6c734qwoafixbkpk6x3emsz4do76gjhu7ezhc7jqquvlmsq",
+                    "logid": "ocid1.log.oc1.ca-toronto-1.amaaaaaaqh5iwviaoxnmwsfb6u72ohqpqmmfmomlzn2bxrzyzgab5aknv7ra"
+                },
+                "data": {
+                    "functionId": "ocid1.fnfunc.oc1.ca-toronto-1.aaaaaaaas756ii24melahgcps6wjwjqzfi5otkrdywdyai3laboacosi2oaa",
+                    "opcRequestId": "/01J9S630870000000000018Y0V/01J9S630870000000000018Y0W",
+                    "src": "STDERR",
+                    "requestId": "/01J9S630870000000000018Y0V/01J9S630870000000000018Y0W",
+                    "applicationId": "ocid1.fnapp.oc1.ca-toronto-1.aaaaaaaaxru5cehs5b6inghow3idjisuk6qxqryqaxjjnm6dp4m7cdkxgdvq",
+                    "containerId": "01J9S63BFW00000000000000Y1",
+                    "message": "01J9S6308T1BT0938ZJ000KAKN - root - ERROR - {\\"error\\": \\"abc\\", \\"time\\": \\"2024-10-09T17:45:01.298Z\\"}"
+                },
+                "service": "OCI Logs",
+                "logger": {
+                    "name": "work-request-exporter"
+                },
+                "source": "work-request-exporter",
+                "time": "2024-10-09T17:45:01.298Z"
             }
         """
         handler(ctx=None, data=to_BytesIO(payload))
         mock_post.assert_called_once()
-        self.assertEqual('{"source": "/mycontext/9", "time": "2024-10-09T17:45:01.298Z", "data": '
-                          '{"error": "abc", "time": "2024-10-09T17:45:01.298Z"}, "oracle": {}, '
+        self.assertEqual('{"source": "work-request-exporter", "time": "2024-10-09T17:45:01.298Z", '
+                          '"data": {"error": "abc", "time": "2024-10-09T17:45:01.298Z"}, "oracle": '
+                          '{"compartmentid": '
+                          '"ocid1.tenancy.oc1..aaaaaaaadoqhu6c734qwoafixbkpk6x3emsz4do76gjhu7ezhc7jqquvlmsq", '
+                          '"ingestedtime": "2024-10-09T17:45:12.328Z", "loggroupid": '
+                          '"ocid1.loggroup.oc1.ca-toronto-1.amaaaaaaqh5iwviav3rpyzlc5efsjkjgeer7bzd5ba665qxihrhf23p52e2q", '
+                          '"tenantid": '
+                          '"ocid1.tenancy.oc1..aaaaaaaadoqhu6c734qwoafixbkpk6x3emsz4do76gjhu7ezhc7jqquvlmsq", '
+                          '"logid": '
+                          '"ocid1.log.oc1.ca-toronto-1.amaaaaaaqh5iwviaoxnmwsfb6u72ohqpqmmfmomlzn2bxrzyzgab5aknv7ra"}, '
                           '"ddsource": "Oracle Cloud", "service": "OCI Logs"}',
                         mock_post.mock_calls[0].kwargs['data'])

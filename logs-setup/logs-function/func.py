@@ -20,10 +20,10 @@ def process(body: dict) -> None:
     # If log is from function invocation, use message from the body as data
     data = body.get("data", {})
     time = body.get("time")
-    if "data" in data and "functionId" in data["data"]:
+    if "functionId" in data:
         # message format: 01J9S6308T1BT0938ZJ000KAKN - root - ERROR - json_str
         try:
-            json_str = data["data"].get("message").split(" - ")[3]
+            json_str = data.get("message").split(" - ")[3]
             data = json.loads(json_str)
             time = data.get("time")
         except Exception as e:
