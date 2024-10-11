@@ -29,7 +29,7 @@ resource "oci_functions_function" "work_request_exporter_function" {
   depends_on = [null_resource.FnImagePushToOCIR, oci_functions_application.work_request_exporter_function_app]
   #Required
   application_id = oci_functions_application.work_request_exporter_function_app.id
-  display_name   = "${oci_functions_application.work_request_exporter_function_app.display_name}-function"
+  display_name   = "work-request-exporter"
   memory_in_mbs  = "256"
 
   #Optional
